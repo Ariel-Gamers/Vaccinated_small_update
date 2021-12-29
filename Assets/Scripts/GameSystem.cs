@@ -7,9 +7,10 @@ using System.Linq;
 
 public class GameSystem : MonoBehaviour
 {
+
     // Start is called before the first frame update
     [SerializeField] int threats_in_level;
-    [SerializeField] float time_to_spawn = 10;
+    [SerializeField] float time_to_spawn = 5;
     [SerializeField] float time;
     [SerializeField] float energy_timer;
     [SerializeField] float total_energy;
@@ -38,7 +39,7 @@ public class GameSystem : MonoBehaviour
 
 
         energyTMP = GameObject.Find("Energy").GetComponent<TMP_Text>();
-        threats_in_level = 10;
+        threats_in_level = 30;
         col = GameObject.Find("Polygon_Collider");
         body_parts.Add(GameObject.Find("Body").GetComponent<PolygonCollider2D>());
         body_parts.Add(GameObject.Find("Head").GetComponent<PolygonCollider2D>());
@@ -81,7 +82,12 @@ public class GameSystem : MonoBehaviour
             return;
         }
         threats_in_level--;
-        GameObject go = infectious_cells.ElementAt(0);
+        int threat_to_spawn = (int)Random.Range(0, 2);
+        if(threats_in_level > 26)
+        {
+            threat_to_spawn = 1;
+        }
+        GameObject go = infectious_cells.ElementAt(threat_to_spawn);
         Vector3 v = new Vector3(Random.Range(min_X, max_X), Random.Range(min_Y, max_Y), -1);
         while (true)
         {
@@ -102,13 +108,22 @@ public class GameSystem : MonoBehaviour
         }
     }
 
-    public GameObject getNearestThreat(Transform cell_position)
+    public GameObject getNearestThreat(Transform cell_position, Type type)
     {
         float magnitude = float.MaxValue;
         GameObject ans = null;
         foreach(GameObject threat in active_threats)
         {
+            Type threat_type = threat.GetComponent<Cell>().getType();
             float distance = Vector2.Distance(threat.transform.position, cell_position.position);
+            if(type == Type.Neutrophil && threat_type == Type.Rhinovirus)
+            {
+                distance += 100; // arbitrary high amount
+            }
+            else if (type == Type.KillerT && threat_type == Type.Influenza)
+            {
+                distance += 100;
+            }
             if(distance < magnitude)
             {
                 Debug.Log("Found non-null threat");
@@ -128,20 +143,27 @@ public class GameSystem : MonoBehaviour
         if(time > time_to_spawn)
         {
             InitThreat();
+            time_to_spawn = Random.Range(0.1f, 7);
             time = 0;
         }
 
         if(energy_timer > 2) // get energy every 2 sec
         {
-            total_energy += 5;
-            if(total_energy < 30)
-            {
-                energy_level += 5;
-            }
+            energy_level += Random.Range(2, 5);
             energy_timer = 0;
         }
         energyTMP.text = "ENERGY: " + energy_level;
 
         active_threats.RemoveAll(item => item == null);
+        if(active_threats.Count > 12)
+        {
+            Application.Quit();
+        }
+        if(threats_in_level < 0)
+        {
+            Application.Quit();
+
+        }
+
     }
 }

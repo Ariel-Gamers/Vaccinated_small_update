@@ -12,14 +12,6 @@ using UnityEngine;
 public class Cell : MonoBehaviour
 {
 
-    public enum Type
-    {
-        Neutrophil,
-        KillerT,
-        Influenza,
-        Rhinovirus,
-        Cell
-    }
 
     [SerializeField] protected float timeSinceHit;
     [SerializeField] protected Type myType = Type.Cell;
@@ -40,6 +32,8 @@ public class Cell : MonoBehaviour
     }
 
 
+
+
     
     virtual protected void Init()
     {
@@ -51,6 +45,10 @@ public class Cell : MonoBehaviour
         in_combat = false;
     }
 
+    public float getHealth()
+    {
+        return health;
+    }
     internal void fight(float damage)
     {
         health -= damage;

@@ -8,6 +8,7 @@ public class Neutrophils : Cell
     // Start is called before the first frame update
     GameObject target;
     GameSystem gs;
+
     GameObject ai;
 
     List<Type> strengths;
@@ -17,13 +18,15 @@ public class Neutrophils : Cell
         strengths = new List<Type>();
         gs = FindObjectOfType<GameSystem>();
         strengths.Add(Type.Rhinovirus);
+        myType = Type.Neutrophil;
+
     }
 
     private IEnumerable getTarget()
     {
         while(target == null)
         {
-            target = gs.getNearestThreat(transform);
+            target = gs.getNearestThreat(transform, myType);
             yield return new WaitForSeconds(1.0f);
         }
     }
@@ -58,7 +61,7 @@ public class Neutrophils : Cell
     {
         if(target == null)
         {
-            target = gs.getNearestThreat(transform);
+            target = gs.getNearestThreat(transform, myType);
             if(target != null)
             {
                 GetComponent<AIDestinationSetter>().target = target.transform;

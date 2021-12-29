@@ -102,8 +102,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeSinceHit: 0
   myType: 4
-  health: 22
-  damage: 1
+  health: 15
+  damage: 2.5
   cell_prefab: {fileID: 0}
   in_combat: 0
   type: 0

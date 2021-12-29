@@ -1,26 +1,72 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Pathfinding;
 
 public class Killer_T : Cell
 {
     // Start is called before the first frame update
-    [SerializeField]float speed = 5.0f;
-    [SerializeField] Vector2 movement;
-    Rigidbody2D rb;
-    
+    GameObject target;
+    GameSystem gs;
+    GameObject ai;
+
+    List<Type> strengths;
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        //StartCoroutine("getTarget");
+        strengths = new List<Type>();
+        gs = FindObjectOfType<GameSystem>();
+        strengths.Add(Type.Rhinovirus);
+        myType = Type.KillerT;
+    }
+
+    private IEnumerable getTarget()
+    {
+        while (target == null)
+        {
+            target = gs.getNearestThreat(transform, myType);
+            yield return new WaitForSeconds(1.0f);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        GameObject go = collision.gameObject;
+        if (go.CompareTag("BadCell"))
+        {
+            StartCoroutine(Engage(go));
+        }
+
+    }
+
+    private IEnumerator Engage(GameObject go)
+    {
+
+        Cell c = go.GetComponent<Cell>();
+
+        while (c != null)
+        {
+            if (timeSinceHit > 2)
+            {
+                if(c.getType() == Type.Rhinovirus)
+                {
+                    c.fight(damage*10);
+                }
+            }
+            yield return new WaitForSeconds(0.5f);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        time += Time.deltaTime;
-        if(time > 2)
+        if (target == null)
         {
-            time = 0;
+            target = gs.getNearestThreat(transform, myType);
+            if (target != null)
+            {
+                GetComponent<AIDestinationSetter>().target = target.transform;
+            }
         }
     }
 }

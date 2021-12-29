@@ -7,12 +7,18 @@ public class Influenza : Cell
 
     List<Type> resistances;
     // Start is called before the first frame update
+
+    float timer;
+    bool canMultiply;
+
     void Start()
     {
+        timer = 0;
         resistances = new List<Type>();
         resistances.Add(Type.Neutrophil);
         myType = Type.Influenza;
         timeSinceHit = 0;
+        canMultiply = false;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -43,5 +49,15 @@ public class Influenza : Cell
         }
     }
 
-    // Update is called once per frame
+    // Update is called once per frame\
+    void Update()
+    {
+        timer += Time.deltaTime;
+        if(timer > 2)
+        {
+            health += 2;
+            timer = 0;
+        }
+
+    }
 }

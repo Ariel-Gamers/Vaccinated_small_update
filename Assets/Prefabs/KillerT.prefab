@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 5903237754555319863}
   - component: {fileID: 4041566376433910442}
-  - component: {fileID: 3161773667136268239}
   - component: {fileID: -8043735851615823506}
   - component: {fileID: -6561279738687906194}
   - component: {fileID: 7518807377856855758}
   - component: {fileID: 4490887126918548169}
   - component: {fileID: 1622347565902458771}
+  - component: {fileID: -2144172680759846349}
   m_Layer: 0
   m_Name: KillerT
   m_TagString: GoodCell
@@ -88,27 +88,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3161773667136268239
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7992701361077860090}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1430d0b9d06005844a8df4baf8798229, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timeSinceHit: 0
-  myType: 4
-  health: 5
-  damage: 1
-  cell_prefab: {fileID: 0}
-  in_combat: 0
-  type: 0
-  multiplier: 0
-  time: 0
 --- !u!58 &-8043735851615823506
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -124,7 +103,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 1.625
+  m_Radius: 1.5
 --- !u!50 &-6561279738687906194
 Rigidbody2D:
   serializedVersion: 4
@@ -230,3 +209,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   version: 1
   target: {fileID: 2287829478241869381, guid: fea3868219f0e624eaeedc2d82ec1e74, type: 3}
+--- !u!114 &-2144172680759846349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7992701361077860090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa5c0d46781d4404388b01e9435e15e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeSinceHit: 0
+  myType: 4
+  health: 10
+  damage: 1
+  cell_prefab: {fileID: 0}
+  in_combat: 0
+  type: 0
+  multiplier: 0
+  time: 0
